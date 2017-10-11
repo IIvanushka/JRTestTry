@@ -18,42 +18,42 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void addBook(Book book) {
-        this.bookDao.addBook(book);
+        bookDao.addBook(book);
     }
 
     @Override
     @Transactional
     public void updateBook(Book book) {
-        this.bookDao.updateBook(book);
+        bookDao.updateBook(book);
     }
 
     @Override
     @Transactional
     public void removeBook(int id) {
-        this.bookDao.removeBook(id);
+        bookDao.removeBook(id);
     }
 
     @Override
     @Transactional
     public void makeRead(boolean isUpdate, Book book) {
-        this.bookDao.makeRead(isUpdate, book);
+        bookDao.makeRead(isUpdate, book);
     }
 
     @Override
     @Transactional
     public Book getBookById(int id) {
-        return this.bookDao.getBookById(id);
+        return bookDao.getBookById(id);
     }
 
     @Override
     @Transactional
     public List<Book> listBooks() {
-        return this.bookDao.listBooks();
+        return bookDao.listBooks();
     }
 
     @Override
     @Transactional
     public Book getBookByName(String searchName) {
-        return this.bookDao.getBookByName(searchName);
+        return bookDao.getBookByName(searchName);
     }
 }

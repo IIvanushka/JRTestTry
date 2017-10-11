@@ -21,7 +21,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public void addBook(Book book) {
         if (!book.getTitle().isEmpty()) {
-            Session session = this.sessionFactory.getCurrentSession();
+            Session session = sessionFactory.getCurrentSession();
             session.persist(book);
             logger.info("Book successfully update. Book details: " + book);
         }
@@ -30,7 +30,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public void updateBook(Book book) {
         if (!book.getTitle().isEmpty()) {
-            Session session = this.sessionFactory.getCurrentSession();
+            Session session = sessionFactory.getCurrentSession();
             session.update(book);
             logger.info("Book successfully update. Book details: " + book);
         }
@@ -38,7 +38,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void removeBook(int id) {
-        Session session = this.sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         Book book = (Book) session.load(Book.class, id);
 
         if (book != null) {
@@ -50,7 +50,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void makeRead(boolean isUpdate, Book book) {
-        Session session = this.sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
 
         if (isUpdate)
             book.setReadAlready(false);
@@ -63,8 +63,8 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book getBookById(int id) {
-        Session session = this.sessionFactory.getCurrentSession();
-        Book book = (Book) session.load(Book.class, id);
+        Session session = sessionFactory.getCurrentSession();
+        Book book = session.load(Book.class, id);
         logger.info("Book successfully loaded. Book details: " + book);
 
         return book;
@@ -73,7 +73,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Book> listBooks() {
-        Session session = this.sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         List<Book> bookList = session.createQuery("from Book").list();
 
         for (Book book : bookList) {
@@ -86,7 +86,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     @SuppressWarnings("unchecked")
     public Book getBookByName(String searchTitle) {
-        Session session = this.sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         List<Book> bookList = session.createQuery("from Book where title like :title")
                 .setParameter("title", "%" + searchTitle + "%")
                 .list();
@@ -94,7 +94,10 @@ public class BookDaoImpl implements BookDao {
         for (Book book : bookList) {
             logger.info("Book list: " + book);
         }
-
-        return bookList.get(0);
+        if (bookList.isEmpty()){
+            return new Book();
+        } else {
+            return bookList.get(0);
+        }
     }
 }
